@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"strings"
 	"time"
+	"bytes"
 
 	"github.com/docker-flow/docker-flow-swarm-listener/metrics"
 )
