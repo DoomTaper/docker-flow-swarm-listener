@@ -181,12 +181,13 @@ func (n Notifier) Remove(ctx context.Context, params string) error {
 		}
 	}
 
-	data := url.Values{}
-    data.Set("text", "you got it!!")
-    data.Set("username", "swarm-listerner")
+	var jsonStr = []byte(`{
+	"text": "hi there!!!!", 
+	"username": "swarm"}
+	`)
 
 	fullURL := urlObj.String()
-	req, err := http.NewRequest("POST", fullURL, strings.NewReader(data.Encode()))
+	req, err := http.NewRequest("POST", fullURL, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		n.log.Printf("ERROR: Incorrect fullURL: %s", fullURL)
 		metrics.RecordError(n.removeErrorMetric)
