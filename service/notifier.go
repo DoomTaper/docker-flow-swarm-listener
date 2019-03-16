@@ -89,8 +89,12 @@ func (n Notifier) Create(ctx context.Context, params string) error {
 		}
 	}
 
+	data := url.Values{}
+    data.Set("text", "you got it!!")
+    data.Set("username", "swarm-listerner")
+
 	fullURL := urlObj.String()
-	req, err := http.NewRequest(n.createHTTPMethod, fullURL, nil)
+	req, err := http.NewRequest(n.createHTTPMethod, fullURL, strings.NewReader(data.Encode()))
 	if err != nil {
 		n.log.Printf("ERROR: Incorrect fullURL: %s", fullURL)
 		metrics.RecordError(n.createErrorMetric)
