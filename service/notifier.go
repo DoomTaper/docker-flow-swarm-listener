@@ -193,6 +193,7 @@ func (n Notifier) Remove(ctx context.Context, params string) error {
 		metrics.RecordError(n.removeErrorMetric)
 		return err
 	}
+	req.Header.Set("Content-Type", "application/json")
 	req = req.WithContext(ctx)
 
 	n.log.Printf("Sending %s removed notification to %s", n.notifyType, fullURL)
