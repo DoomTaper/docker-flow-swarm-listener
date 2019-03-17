@@ -90,12 +90,14 @@ func (n Notifier) Create(ctx context.Context, params string) error {
 		}
 	}
 
-	data := url.Values{}
-    data.Set("text", "you got it!!")
-    data.Set("username", "swarm-listerner")
+	var jsonStr = []byte(`{
+	"text": "hi there!!!!", 
+	"username": "swarm"}
+	`)
 
 	fullURL := urlObj.String()
-	req, err := http.NewRequest("POST", fullURL, strings.NewReader(data.Encode()))
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	req, err := http.NewRequest("POST", fullURL, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		n.log.Printf("ERROR: Incorrect fullURL: %s", fullURL)
 		metrics.RecordError(n.createErrorMetric)
@@ -188,6 +190,7 @@ func (n Notifier) Remove(ctx context.Context, params string) error {
 	`)
 
 	fullURL := urlObj.String()
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	req, err := http.NewRequest("POST", fullURL, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		n.log.Printf("ERROR: Incorrect fullURL: %s", fullURL)
