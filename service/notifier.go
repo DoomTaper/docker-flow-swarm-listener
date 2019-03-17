@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 	"bytes"
+	"crypto/tls"
 
 	"github.com/docker-flow/docker-flow-swarm-listener/metrics"
 )
